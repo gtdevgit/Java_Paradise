@@ -3,7 +3,7 @@ package com.training.paradise.dao.jdbc;
 import com.training.paradise.model.Place;
 import com.training.paradise.dao.PlaceDao;
 
-import java.sql.Connection;
+import java.sql.*;
 
 public class JdbcPlaceDao extends JdbcDao implements PlaceDao {
 
@@ -13,7 +13,16 @@ public class JdbcPlaceDao extends JdbcDao implements PlaceDao {
 
     @Override
     public Long createPlace(Place place) {
-        return null;
+        int row = -1;
+        String query = "INSERT INTO public.place(name) VALUES (?)";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, place.getName());
+            row = preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+                e.printStackTrace();
+        }
+        return (long) row;
     }
 
     @Override
