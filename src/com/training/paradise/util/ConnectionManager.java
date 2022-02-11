@@ -12,7 +12,7 @@ import java.sql.SQLException;
 public class ConnectionManager {
     private static Connection connection;
 
-    private static Connection getConnection(){
+    public static Connection getConnection(){
 
         if (connection == null){
             ApplicationConfig applicationConfig = new ApplicationConfig();
@@ -29,7 +29,7 @@ public class ConnectionManager {
         return connection;
     }
 
-    private static void Close(){
+    public static void Close(){
         if (connection != null){
             try {
                 connection.close();

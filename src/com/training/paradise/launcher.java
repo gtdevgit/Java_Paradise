@@ -2,7 +2,7 @@ package com.training.paradise;
 
 import java.util.Scanner;
 
-public class Launcher {
+public class launcher {
 
 
     static Scanner scanner = new Scanner(System.in);

@@ -1,4 +1,4 @@
-package com.training.paradise.Model;
+package com.training.paradise.model;
 
 import java.io.Serializable;
 
