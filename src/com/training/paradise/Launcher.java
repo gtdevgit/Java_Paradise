@@ -46,8 +46,11 @@ public class Launcher {
                 case 8:
                     //Instruction
                     break;
+                default:
+                    break;
             }
         }while(navigation!=8);
+
     }
 
 }
