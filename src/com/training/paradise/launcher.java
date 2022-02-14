@@ -61,8 +61,9 @@ public class launcher {
         System.out.println("Enter place name :");
         String name = scanner.next();
         DaoFactory daoFactory = new DaoFactory();
-        Place place = new Place(1L, name);
+        Place place = new Place( name);
         Long id = daoFactory.getPlaceDao().createPlace(place);
         System.out.println("new id = " + id);
     }
+
 }

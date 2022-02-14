@@ -5,11 +5,18 @@ import java.io.Serializable;
 public class Trip implements Serializable {
 
     private long id;
-    private String departure;
-    private String destination;
+    private int departure;
+    private int destination;
     private Float price;
 
-    public Trip(long id, String departure, String destination, Float price) {
+    public Trip( int departure, int destination, Float price) {
+        this.id = id;
+        this.departure = departure;
+        this.destination = destination;
+        this.price = price;
+    }
+
+    public Trip(long id, int departure, int destination, Float price) {
         this.id = id;
         this.departure = departure;
         this.destination = destination;
@@ -20,23 +27,19 @@ public class Trip implements Serializable {
         return id;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getDeparture() {
+    public int getDeparture() {
         return departure;
     }
 
-    public void setDeparture(String departure) {
+    public void setDeparture(int departure) {
         this.departure = departure;
     }
 
-    public String getDestination() {
+    public int getDestination() {
         return destination;
     }
 
-    public void setDestination(String destination) {
+    public void setDestination(int destination) {
         this.destination = destination;
     }
 

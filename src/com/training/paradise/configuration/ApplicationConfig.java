@@ -80,4 +80,5 @@ public class ApplicationConfig {
     public String getPassword() {
         return password;
     }
+
 }
