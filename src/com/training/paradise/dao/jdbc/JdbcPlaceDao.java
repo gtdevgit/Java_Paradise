@@ -11,18 +11,25 @@ public class JdbcPlaceDao extends JdbcDao implements PlaceDao {
         super(connection);
     }
 
+    private final int COLUMN_ID = 1;
+
     @Override
     public Long createPlace(Place place) {
-        int row = -1;
-        String query = "INSERT INTO public.place(name) VALUES (?)";
+        int autoIncrKey = -1;
+        String query = String.format("INSERT INTO public.place(name) VALUES ('%s');", place.getName());
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, place.getName());
-            row = preparedStatement.executeUpdate();
+            Statement statement = connection.createStatement();
+            statement.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
+            ResultSet rs = statement.getGeneratedKeys();
+            if (rs != null && rs.next()){
+                autoIncrKey = rs.getInt(COLUMN_ID);
+            } else {
+                throw new SQLException();
+            }
         } catch (SQLException e) {
                 e.printStackTrace();
         }
-        return (long) row;
+        return (long) autoIncrKey;
     }
 
     @Override
