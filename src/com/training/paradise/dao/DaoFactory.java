@@ -5,16 +5,14 @@ import com.training.paradise.dao.jdbc.JdbcTripDao;
 import com.training.paradise.util.ConnectionManager;
 
 public class DaoFactory {
-    public DaoFactory() {
+    private DaoFactory() {
     }
 
-    public JdbcTripDao getTripDao(){
-        JdbcTripDao jdbcTripDao = new JdbcTripDao(ConnectionManager.getConnection());
-        return jdbcTripDao;
+    public static JdbcTripDao getTripDao(){
+        return new JdbcTripDao(ConnectionManager.getConnection());
     }
 
-    public JdbcPlaceDao getPlaceDao(){
-        JdbcPlaceDao jdbcPlaceDao = new JdbcPlaceDao(ConnectionManager.getConnection());
-        return jdbcPlaceDao;
+    public static JdbcPlaceDao getPlaceDao(){
+        return new JdbcPlaceDao(ConnectionManager.getConnection());
     }
 }

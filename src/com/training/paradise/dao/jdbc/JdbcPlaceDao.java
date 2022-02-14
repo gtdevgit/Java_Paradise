@@ -4,6 +4,8 @@ import com.training.paradise.model.Place;
 import com.training.paradise.dao.PlaceDao;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class JdbcPlaceDao extends JdbcDao implements PlaceDao {
 
@@ -14,7 +16,7 @@ public class JdbcPlaceDao extends JdbcDao implements PlaceDao {
     private final int COLUMN_ID = 1;
 
     @Override
-    public Long createPlace(Place place) {
+    public Long create(Place place) {
         int autoIncrKey = -1;
         String query = "INSERT INTO public.place(name) VALUES (?)";
         try {
@@ -36,22 +38,35 @@ public class JdbcPlaceDao extends JdbcDao implements PlaceDao {
     }
 
     @Override
-    public Place findPlaceById(Long id) {
+    public Place findById(Long id) {
         return null;
     }
 
     @Override
-    public boolean updatePlace(Place place) {
+    public boolean update(Place place) {
         return false;
     }
 
     @Override
-    public boolean removePlace(Place place) {
+    public boolean remove(Place place) {
         return false;
     }
 
     @Override
-    public Place findAllPlace() {
-        return null;
+    public List<Place> findAll() {
+        List<Place> places = new ArrayList<>();
+        String query = "SELECT * FROM public.place";
+        try (Statement st = connection.createStatement()) {
+            ResultSet resultSet = st.executeQuery(query);
+            while (resultSet.next()) {
+                Long id = resultSet.getLong("id");
+                String name = resultSet.getString("name");
+                Place place = new Place(id, name);
+                places.add(place);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return places;
     }
 }

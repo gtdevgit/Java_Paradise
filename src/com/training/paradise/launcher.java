@@ -3,12 +3,16 @@ package com.training.paradise;
 import com.training.paradise.dao.DaoFactory;
 import com.training.paradise.model.Place;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class launcher {
 
-
     static Scanner scanner = new Scanner(System.in);
+
+    private static final int MENU_ADD_PLACE = 1;
+    private static final int MENU_LIST_PLACE = 2;
 
     public static void main(String[] args) {
         int navigation;
@@ -25,12 +29,13 @@ public class launcher {
             System.out.println("8 - Quit");
             navigation = scanner.nextInt();
             switch (navigation) {
-                case 1:
+                case MENU_ADD_PLACE:
                     //Instruction
                     addPlace();
                     break;
-                case 2:
+                case MENU_LIST_PLACE:
                     //Instruction
+                    listPlace();
                     break;
                 case 3:
                     //Instruction
@@ -57,13 +62,19 @@ public class launcher {
     }
 
     private static void addPlace(){
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter place name :");
+        System.out.println("Enter place name : ");
         String name = scanner.next();
-        DaoFactory daoFactory = new DaoFactory();
         Place place = new Place( name);
-        Long id = daoFactory.getPlaceDao().createPlace(place);
+        Long id = DaoFactory.getPlaceDao().create(place);
         System.out.println("new id = " + id);
     }
 
+    private static void listPlace() {
+        List<Place> places = DaoFactory.getPlaceDao().findAll();
+        for (Place place : places){
+            System.out.println("id : " + place.getId() + ",  name : " + place.getName());
+        }
+    }
 }
+
+

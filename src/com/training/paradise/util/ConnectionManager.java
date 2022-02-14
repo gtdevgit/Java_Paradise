@@ -9,8 +9,11 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class ConnectionManager {
+public final class ConnectionManager {
     private static Connection connection;
+
+    private ConnectionManager() {
+    }
 
     public static Connection getConnection(){
 
@@ -35,6 +38,8 @@ public class ConnectionManager {
                 connection.close();
             } catch (SQLException e) {
                 e.printStackTrace();
+            } finally {
+                connection = null;
             }
         }
     }
