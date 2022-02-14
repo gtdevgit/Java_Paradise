@@ -16,11 +16,14 @@ public class JdbcPlaceDao extends JdbcDao implements PlaceDao {
     @Override
     public Long createPlace(Place place) {
         int autoIncrKey = -1;
-        String query = String.format("INSERT INTO public.place(name) VALUES ('%s');", place.getName());
+        String query = "INSERT INTO public.place(name) VALUES (?)";
         try {
-            Statement statement = connection.createStatement();
-            statement.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
-            ResultSet rs = statement.getGeneratedKeys();
+            PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            preparedStatement.setString(1, place.getName());
+            // Attention avec un preparedStatement il ne faut pas mettre de query dans le executeUpdate
+            // sinon erreur "Impossible d''utiliser les fonctions de requête qui utilisent une chaîne de caractères sur un PreparedStatement."
+            preparedStatement.executeUpdate();
+            ResultSet rs = preparedStatement.getGeneratedKeys();
             if (rs != null && rs.next()){
                 autoIncrKey = rs.getInt(COLUMN_ID);
             } else {
