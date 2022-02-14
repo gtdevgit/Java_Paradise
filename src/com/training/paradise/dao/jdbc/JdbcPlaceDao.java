@@ -19,8 +19,7 @@ public class JdbcPlaceDao extends JdbcDao implements PlaceDao {
     public Long create(Place place) {
         int autoIncrKey = -1;
         String query = "INSERT INTO public.place(name) VALUES (?)";
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)){
             preparedStatement.setString(1, place.getName());
             // Attention avec un preparedStatement il ne faut pas mettre de query dans le executeUpdate
             // sinon erreur "Impossible d''utiliser les fonctions de requête qui utilisent une chaîne de caractères sur un PreparedStatement."
@@ -31,6 +30,7 @@ public class JdbcPlaceDao extends JdbcDao implements PlaceDao {
             } else {
                 throw new SQLException();
             }
+            rs.close();
         } catch (SQLException e) {
                 e.printStackTrace();
         }
@@ -38,7 +38,23 @@ public class JdbcPlaceDao extends JdbcDao implements PlaceDao {
     }
 
     @Override
+    // id vs resultId
+    // return place et return null
+    // id introuvable
     public Place findById(Long id) {
+        String query = "SELECT * FROM public.place WHERE public.place.id = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setLong(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Long resultId = resultSet.getLong("id");
+                String name = resultSet.getString("name");
+                Place place = new Place(resultId, name);
+                return place;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 

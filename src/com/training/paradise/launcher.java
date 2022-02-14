@@ -13,6 +13,8 @@ public class launcher {
 
     private static final int MENU_ADD_PLACE = 1;
     private static final int MENU_LIST_PLACE = 2;
+    private static final int MENU_EDIT_PLACE = 3;
+
 
     public static void main(String[] args) {
         int navigation;
@@ -39,6 +41,7 @@ public class launcher {
                     break;
                 case 3:
                     //Instruction
+                    editPlace();
                     break;
                 case 4:
                     //Instruction
@@ -73,6 +76,19 @@ public class launcher {
         List<Place> places = DaoFactory.getPlaceDao().findAll();
         for (Place place : places){
             System.out.println("id : " + place.getId() + ",  name : " + place.getName());
+        }
+    }
+
+    private static void editPlace() {
+        System.out.println("Enter place id to edit: ");
+        long id = scanner.nextLong();
+        Place place = DaoFactory.getPlaceDao().findById(id);
+        if (place == null)
+        {
+            System.out.println("introuvable.");
+        }
+        else {
+            System.out.println(place.getName());
         }
     }
 }
